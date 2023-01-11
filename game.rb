@@ -1,3 +1,9 @@
+# Game of Life
+# Click on a square to create a square
+# Press p to play
+# Press p to clear
+# Press escape to exit
+
 require 'ruby2d'
 
 TILE_SIZE = 25
@@ -14,16 +20,6 @@ set title: "Game of Life",
   viewport_height: TILE_SIZE * GRID_SIZE,
   height: Window.height + TILE_SIZE
 
-
-  Text.new(
-    'P - play / pause',
-    x: Window.width - TILE_SIZE, y: Window.height - TILE_SIZE,
-    style: 'bold',
-    size: 30,
-    color: 'white',
-    rotate: 90,
-    z: 10
-  )
 class Grid
   attr_accessor :cells, :started
   def initialize
@@ -32,7 +28,7 @@ class Grid
   end
 
   def reset
-    cells = Hash.new
+    @cells = Hash.new
   end
 
   def draw_horizontal_lines
@@ -107,6 +103,10 @@ on :key_down do |event|
   if event.key == 'p'
     grid.toggle_status
   end
+  if event.key == 'c'
+    grid.started = false
+    grid.reset
+  end
   if event.key == 'escape'
     exit
   end
@@ -114,7 +114,6 @@ end
 
 update do
   clear
-  grid.reset
   grid.draw_vertical_lines
   grid.draw_horizontal_lines
   grid.populate_cells
